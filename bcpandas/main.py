@@ -96,7 +96,12 @@ class SqlCreds:
         # construct the engine for sqlalchemy
         if odbc_kwargs:
             db_url += ";".join(f"{k}={v}" for k, v in odbc_kwargs.items())
+            
+        # had some errors here with some versions / docs             
         conn_string = f"mssql+pyodbc:///?odbc_connect={quote_plus(db_url)}"
+        
+        #new conn string here:
+        #conn_string = f"mssql+pyodbc://*USER*:*PASSWORD*@*HOST*\\*INSTANCE*/*DATABASE*?driver=ODBC+Driver+17+for+SQL+Server;MARS_Connection=Yes"
         self.engine = sa.engine.create_engine(conn_string)
 
         logger.info(f"Created engine for sqlalchemy:\t{self.engine}")
